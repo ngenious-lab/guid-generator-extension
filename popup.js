@@ -132,9 +132,21 @@ document.addEventListener('DOMContentLoaded', () => {
       lastGenerated.push(id);
     }
 
-    // Отображение с переносом строк через <br>
-    generatedDisplay.innerHTML = lastGenerated.join('<br>');
-    copyButton.disabled = false;
+    // Безопасное отображение с использованием DOM
+    generatedDisplay.innerHTML = ''; // Очищаем содержимое
+    if (lastGenerated.length === 0) {
+      generatedDisplay.textContent = 'Нажмите "Сгенерировать"';
+    } else {
+      lastGenerated.forEach((id, index) => {
+        const p = document.createElement('p');
+        p.textContent = id;
+        generatedDisplay.appendChild(p);
+        //if (index < lastGenerated.length - 1) {
+        //  generatedDisplay.appendChild(document.createElement('br'));
+        //}
+      });
+    }
+    copyButton.disabled = lastGenerated.length === 0;
 
     // Сохранение в историю
     saveHistory(currentType, base64Checkbox.checked, lastGenerated);
