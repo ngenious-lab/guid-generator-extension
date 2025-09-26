@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentType = 'guid';
   let history = [];
+  let lastGenerated = []; // Для хранения сгенерированных кодов
 
   // Функция для загрузки истории из storage
   function loadHistory() {
@@ -19,8 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Функция для сохранения истории в storage
-  function saveHistory(newEntry) {
-    history.unshift(newEntry); // Добавляем в начало
+  function saveHistory(type, isBase64, ids) {
+    const entries = ids.map(id => `${type.toUpperCase()}${isBase64 ? ' (Base64)' : ''}: ${id}`);
+    history.unshift(...entries); // Добавляем каждую запись отдельно
     if (history.length > 10) history = history.slice(0, 10); // Ограничиваем 10 записями
     browser.storage.local.set({ history });
     updateHistoryDisplay();
@@ -110,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Основная функция генерации
   generateButton.addEventListener('click', () => {
-    const count = parseInt(countInput.value) || 1;
-    let generated = [];
+    const count = Math.min(Math.max(parseInt(countInput.value) || 1, 1), 10); // Ограничение 1–10
+    lastGenerated = [];
 
     for (let i = 0; i < count; i++) {
       let id;
@@ -127,21 +129,21 @@ document.addEventListener('DOMContentLoaded', () => {
         id = btoa(id);
       }
 
-      generated.push(id);
+      lastGenerated.push(id);
     }
 
-    const output = generated.join('\n');
-    generatedDisplay.textContent = output;
+    // Отображение с переносом строк через <br>
+    generatedDisplay.innerHTML = lastGenerated.join('<br>');
     copyButton.disabled = false;
 
     // Сохранение в историю
-    saveHistory(`${currentType.toUpperCase()}${base64Checkbox.checked ? ' (Base64)' : ''}: ${output}`);
+    saveHistory(currentType, base64Checkbox.checked, lastGenerated);
   });
 
   // Копирование
   copyButton.addEventListener('click', () => {
-    const text = generatedDisplay.textContent;
-    if (text && text !== 'Нажмите "Сгенерировать"') {
+    const text = lastGenerated.join('\n'); // Используем \n для буфера обмена
+    if (text && lastGenerated.length > 0) {
       navigator.clipboard.writeText(text)
         .then(() => alert('Скопировано в буфер обмена!'))
         .catch(err => {
