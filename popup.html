@@ -2,11 +2,11 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Генератор GUID</title>
+  <title>Генератор ID</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      width: 350px;
+      width: 400px;
       padding: 10px;
       background-color: #f9f9f9;
     }
@@ -15,14 +15,30 @@
       text-align: center;
       margin-bottom: 15px;
     }
-    #guid {
-      font-family: monospace;
-      font-size: 14px;
-      word-wrap: break-word;
-      background-color: #fff;
-      padding: 10px;
-      border: 1px solid #ccc;
+    .tabs {
+      display: flex;
+      justify-content: space-around;
       margin-bottom: 10px;
+    }
+    .tab {
+      padding: 8px 12px;
+      cursor: pointer;
+      background-color: #ddd;
+      border-radius: 4px 4px 0 0;
+    }
+    .tab.active {
+      background-color: #0078d7;
+      color: white;
+    }
+    #options {
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input[type="number"] {
+      width: 60px;
     }
     button {
       width: 100%;
@@ -40,13 +56,48 @@
       background-color: #ccc;
       cursor: not-allowed;
     }
+    #generated {
+      font-family: monospace;
+      font-size: 14px;
+      word-wrap: break-word;
+      background-color: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    #history {
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      border-top: 1px solid #ccc;
+      padding-top: 10px;
+    }
+    #history p {
+      margin: 5px 0;
+      word-wrap: break-word;
+    }
   </style>
 </head>
 <body>
-  <h2>Генератор GUID</h2>
-  <p>GUID: <span id="guid">Нажмите "Сгенерировать"</span></p>
+  <h2>Генератор GUID/ULID/KSUID</h2>
+  <div class="tabs">
+    <div class="tab active" data-type="guid">GUID</div>
+    <div class="tab" data-type="ulid">ULID</div>
+    <div class="tab" data-type="ksuid">KSUID</div>
+  </div>
+  <div id="options">
+    <label>Количество: <input type="number" id="count" min="1" max="10" value="1"></label>
+    <label><input type="checkbox" id="base64"> Кодировать в Base64</label>
+  </div>
   <button id="generate">Сгенерировать</button>
+  <div id="generated">Нажмите "Сгенерировать"</div>
   <button id="copy" disabled>Копировать</button>
+  <div id="history">
+    <h3>История</h3>
+    <div id="history-list"></div>
+  </div>
   <script src="popup.js"></script>
 </body>
 </html>
