@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Генератор GUID</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 350px;
+      padding: 10px;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    #guid {
+      font-family: monospace;
+      font-size: 14px;
+      word-wrap: break-word;
+      background-color: #fff;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      background-color: #0078d7;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005ea2;
+    }
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h2>Генератор GUID</h2>
+  <p>GUID: <span id="guid">Нажмите "Сгенерировать"</span></p>
+  <button id="generate">Сгенерировать</button>
+  <button id="copy" disabled>Копировать</button>
+  <script src="popup.js"></script>
+</body>
+</html>

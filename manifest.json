@@ -1,0 +1,30 @@
+{
+  "manifest_version": 2,
+  "name": "GUID Generator",
+  "version": "1.0",
+  "description": "Генерирует уникальный идентификатор (GUID/UUID) и копирует его в буфер обмена.",
+  "permissions": ["clipboardWrite"],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "guid-generator@example.com",
+      "data_collection_permissions": {
+        "data_collection_enabled": false,
+        "required": ["none"],
+        "description": "Это расширение не собирает никаких пользовательских данных. Все операции (генерация GUID и копирование в буфер обмена) выполняются локально в браузере."
+      }
+    }
+  }
+}
